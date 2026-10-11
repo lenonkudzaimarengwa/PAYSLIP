@@ -31,6 +31,16 @@ Requirements: Docker Compose and OpenSSL.
 
    Change this password immediately. The seeded account is created only if no administrator exists. Do not reset a password or expose this initial credential outside your private deployment process.
 
+## Deploy behind HTTPS
+
+For a VPS deployment, point the domain's DNS A record to the server's public IP and allow inbound ports 80 and 443. In `.env`, set `DOMAIN` to the hostname and `FRONTEND_URL` to its `https://` URL, set `NODE_ENV=production`, and replace the placeholder database and JWT secrets with generated values. Start the production profile with:
+
+```bash
+docker compose --profile production up --build -d
+```
+
+Caddy obtains and renews the HTTPS certificate. The frontend remains bound to localhost on port 9000; expose the site through Caddy, not that port.
+
 ## Accounts and roles
 
 - Sign in with a company number and password; company numbers are normalized to uppercase.
